@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
-import CodeMirror from 'react-codemirror2';
-import io from 'socket.io-client/dist/socket.io.js';
-import axios from 'axios';
-import { throttle } from 'lodash';
+import React, { Component } from "react";
+import CodeMirror from "react-codemirror2";
+import io from "socket.io-client/dist/socket.io.js";
+import axios from "axios";
+import { throttle } from "lodash";
 
-import Stdout from './StdOut/index.jsx';
-import EditorHeader from './EditorHeader';
-import Button from '../globals/Button';
+import Stdout from "./StdOut/index.jsx";
+import EditorHeader from "./EditorHeader";
+import NavBar from "../NavBar.jsx";
 
-import 'codemirror/mode/javascript/javascript.js';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/base16-dark.css';
-import './Sling.css';
+import Button from "../globals/Button";
+
+import "codemirror/mode/javascript/javascript.js";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/base16-dark.css";
+import "./Sling.css";
 
 class Sling extends Component {
   constructor(props) {
@@ -20,21 +22,21 @@ class Sling extends Component {
       id: null,
       ownerText: null,
       challengerText: null,
-      text: '',
-      challenge: '',
-      stdout: ''
+      text: "",
+      challenge: "",
+      stdout: ""
     };
   }
 
   componentDidMount() {
     const { socket, challenge } = this.props;
     const startChall =
-      typeof challenge === 'string' ? JSON.parse(challenge) : {};
-    socket.on('connect', () => {
-      socket.emit('client.ready', startChall);
+      typeof challenge === "string" ? JSON.parse(challenge) : {};
+    socket.on("connect", () => {
+      socket.emit("client.ready", startChall);
     });
 
-    socket.on('server.initialState', ({ id, text, challenge }) => {
+    socket.on("server.initialState", ({ id, text, challenge }) => {
       this.setState({
         id,
         ownerText: text,
@@ -43,37 +45,37 @@ class Sling extends Component {
       });
     });
 
-    socket.on('server.changed', ({ text, email }) => {
-      if (localStorage.getItem('email') === email) {
+    socket.on("server.changed", ({ text, email }) => {
+      if (localStorage.getItem("email") === email) {
         this.setState({ ownerText: text });
       } else {
         this.setState({ challengerText: text });
       }
     });
 
-    socket.on('server.run', ({ stdout, email }) => {
-      const ownerEmail = localStorage.getItem('email');
+    socket.on("server.run", ({ stdout, email }) => {
+      const ownerEmail = localStorage.getItem("email");
       email === ownerEmail ? this.setState({ stdout }) : null;
     });
 
-    socket.on('disconnect', () => {
-      alert('You won or lost');
-      this.props.history.push('/history');
+    socket.on("disconnect", () => {
+      alert("You won or lost");
+      this.props.history.push("/history");
     });
 
-    window.addEventListener('resize', this.setEditorSize);
+    window.addEventListener("resize", this.setEditorSize);
   }
 
   submitCode = () => {
     const { socket } = this.props;
     const { ownerText } = this.state;
-    const email = localStorage.getItem('email');
-    socket.emit('client.run', { text: ownerText, email });
+    const email = localStorage.getItem("email");
+    socket.emit("client.run", { text: ownerText, email });
   };
 
   handleChange = throttle((editor, metadata, value) => {
-    const email = localStorage.getItem('email');
-    this.props.socket.emit('client.update', { text: value, email }); //value is whatever the user types into the code editor
+    const email = localStorage.getItem("email");
+    this.props.socket.emit("client.update", { text: value, email }); //value is whatever the user types into the code editor
   }, 250);
 
   setEditorSize = throttle(() => {
@@ -89,15 +91,16 @@ class Sling extends Component {
     const { socket } = this.props;
     return (
       <div className="sling-container">
-        <EditorHeader />
+        {console.log("hi", this)}
+        <NavBar history={this.props.history} />
         <div className="code1-editor-container">
           <CodeMirror
             editorDidMount={this.initializeEditor}
             value={this.state.ownerText}
             options={{
-              mode: 'javascript',
+              mode: "javascript",
               lineNumbers: true,
-              theme: 'base16-dark'
+              theme: "base16-dark"
             }}
             onChange={this.handleChange}
           />
@@ -120,9 +123,9 @@ class Sling extends Component {
             editorDidMount={this.initializeEditor}
             value={this.state.challengerText}
             options={{
-              mode: 'javascript',
+              mode: "javascript",
               lineNumbers: true,
-              theme: 'base16-dark',
+              theme: "base16-dark",
               readOnly: true
             }}
           />
