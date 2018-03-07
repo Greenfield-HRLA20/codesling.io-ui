@@ -1,11 +1,16 @@
 import React from 'react';
+import { Route, Switch, Link } from 'react-router-dom';
+import Home from '../../../components/Home/index.jsx';
 
 const EditorNavbar = () => (
   <nav className="editor-navbar">
     <ul>
-      <li>Item 1</li>
-      <li>Item 2</li>
-      <li>Item 3</li>
+      <Link to="/home">
+        <li>Home</li>
+      </Link>
+      <li>Friends</li>
+      <li>Messages</li>
+      <li>History</li>
     </ul>
   </nav>
 );

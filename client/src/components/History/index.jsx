@@ -10,18 +10,29 @@ class History extends Component {
   };
 
   async componentDidMount() {
+<<<<<<< HEAD
     const id = localStorage.getItem("id");
     const { data } = await axios.get(
       `http://localhost:3396/api/history/fetchAllHistory/${id}`
     );
     console.log("received data is", data);
+=======
+    const id = localStorage.getItem('id');
+    const { data } = await axios.get(
+      `http://localhost:3396/api/history/fetchAllHistory/${id}`
+    );
+>>>>>>> Commit for rebase
     this.setState({ history: data });
+    console.log('this is the id', id);
   }
 
   render() {
     return (
       <div>
+<<<<<<< HEAD
         <NavBar history={this.props.history} />
+=======
+>>>>>>> Commit for rebase
         <HistoryList history={this.state.history} />
       </div>
     );
