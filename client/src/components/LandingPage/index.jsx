@@ -34,7 +34,6 @@ class LandingPage extends Component {
           text="Signup"
           onClick={() => {
             this.props.history.push("/signup");
-            console.log(this.props.history);
           }}
         />
       </div>
