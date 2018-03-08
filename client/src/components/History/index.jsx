@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
-import { HistoryList } from "./HistoryList.jsx";
-import NavBar from "../NavBar.jsx";
+import { HistoryList } from './HistoryList.jsx';
+import NavBar from '../NavBar.jsx';
 
 class History extends Component {
   state = {
@@ -10,11 +10,10 @@ class History extends Component {
   };
 
   async componentDidMount() {
-    const id = localStorage.getItem("id");
+    const id = localStorage.getItem('id');
     const { data } = await axios.get(
       `http://localhost:3396/api/history/fetchAllHistory/${id}`
     );
-    console.log("received data is", data);
     this.setState({ history: data });
   }
 

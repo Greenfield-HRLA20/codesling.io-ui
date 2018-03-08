@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import randomstring from "randomstring";
-import axios from "axios";
+import React, { Component } from 'react';
+import randomstring from 'randomstring';
+import axios from 'axios';
 
-import Button from "../globals/Button";
-import Logo from "../globals/Logo";
-import NavBar from "../NavBar.jsx";
+import Button from '../globals/Button';
+import Logo from '../globals/Logo';
+import NavBar from '../NavBar.jsx';
 
-import "./LandingPage.css";
+import './LandingPage.css';
 
 let slingId;
 
@@ -17,7 +17,7 @@ class Home extends Component {
   };
 
   async componentDidMount() {
-    const id = localStorage.getItem("id");
+    const id = localStorage.getItem('id');
     const { data } = await axios.get(
       `http://localhost:3396/api/usersChallenges/${id}`
     );
@@ -39,7 +39,7 @@ class Home extends Component {
   };
 
   handleAddChallengeClick = () => {
-    this.props.history.push("/addChallenge");
+    this.props.history.push('/addChallenge');
   };
 
   handleChallengeSelect = e => {

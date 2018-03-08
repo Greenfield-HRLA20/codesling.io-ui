@@ -4,9 +4,9 @@ import io from 'socket.io-client/dist/socket.io.js';
 import Sling from './Sling.jsx';
 
 class SlingIndex extends Component {
-  state = { 
-    socket: null,
-   }
+  state = {
+    socket: null
+  };
 
   componentWillMount() {
     this.socket = io('http://localhost:4155', {
@@ -21,11 +21,19 @@ class SlingIndex extends Component {
   render() {
     if (this.props.location.state) {
       return (
-        <Sling socket={this.state.socket} challenge={this.props.location.state.challenge}/>
+        <Sling
+          socket={this.state.socket}
+          challenge={this.props.location.state.challenge}
+          history={this.props.history}
+        />
       );
     } else {
       return (
-        <Sling socket={this.state.socket} challenge={{}}/>
+        <Sling
+          socket={this.state.socket}
+          challenge={{}}
+          history={this.props.history}
+        />
       );
     }
   }

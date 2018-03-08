@@ -14,8 +14,8 @@ import 'codemirror/theme/base16-dark.css';
 import './Sling.css';
 
 class Sling extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       id: null,
       ownerText: null,
@@ -23,16 +23,17 @@ class Sling extends Component {
       text: '',
       challenge: '',
       stdout: ''
-    }
+    };
   }
 
   componentDidMount() {
     const { socket, challenge } = this.props;
-    const startChall = typeof challenge === 'string' ? JSON.parse(challenge) : {}
+    const startChall =
+      typeof challenge === 'string' ? JSON.parse(challenge) : {};
     socket.on('connect', () => {
       socket.emit('client.ready', startChall);
     });
-    
+
     socket.on('server.initialState', ({ id, text, challenge }) => {
       this.setState({
         id,
@@ -55,6 +56,11 @@ class Sling extends Component {
       email === ownerEmail ? this.setState({ stdout }) : null;
     });
 
+    socket.on('disconnect', () => {
+      alert('You won or lost');
+      this.props.history.push('/history');
+    });
+
     window.addEventListener('resize', this.setEditorSize);
   }
 
@@ -63,21 +69,21 @@ class Sling extends Component {
     const { ownerText } = this.state;
     const email = localStorage.getItem('email');
     socket.emit('client.run', { text: ownerText, email });
-  }
+  };
 
   handleChange = throttle((editor, metadata, value) => {
     const email = localStorage.getItem('email');
-    this.props.socket.emit('client.update', { text: value, email });
-  }, 250)
+    this.props.socket.emit('client.update', { text: value, email }); //value is whatever the user types into the code editor
+  }, 250);
 
   setEditorSize = throttle(() => {
     this.editor.setSize(null, `${window.innerHeight - 80}px`);
   }, 100);
 
-  initializeEditor = (editor) => {
+  initializeEditor = editor => {
     this.editor = editor;
     this.setEditorSize();
-  }
+  };
 
   render() {
     const { socket } = this.props;
@@ -91,16 +97,16 @@ class Sling extends Component {
             options={{
               mode: 'javascript',
               lineNumbers: true,
-              theme: 'base16-dark',
+              theme: 'base16-dark'
             }}
             onChange={this.handleChange}
-            />
+          />
         </div>
         <div className="stdout-container">
-            {this.state.challenge.title || this.props.challenge.title}
-            <br/>
-            {this.state.challenge.content || this.props.challenge.content}
-          <Stdout text={this.state.stdout}/>
+          {this.state.challenge.title || this.props.challenge.title}
+          <br />
+          {this.state.challenge.content || this.props.challenge.content}
+          <Stdout text={this.state.stdout} />
           <Button
             className="run-btn"
             text="Run Code"
@@ -110,19 +116,19 @@ class Sling extends Component {
           />
         </div>
         <div className="code2-editor-container">
-          <CodeMirror 
+          <CodeMirror
             editorDidMount={this.initializeEditor}
             value={this.state.challengerText}
             options={{
               mode: 'javascript',
               lineNumbers: true,
               theme: 'base16-dark',
-              readOnly: true,
+              readOnly: true
             }}
           />
         </div>
       </div>
-    )
+    );
   }
 }
 
