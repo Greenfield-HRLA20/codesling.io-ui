@@ -91,7 +91,6 @@ class Sling extends Component {
     const { socket } = this.props;
     return (
       <div className="sling-container">
-        {console.log("hi", this)}
         <NavBar history={this.props.history} />
         <div className="code1-editor-container">
           <CodeMirror

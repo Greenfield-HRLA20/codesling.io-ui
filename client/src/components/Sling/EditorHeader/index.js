@@ -14,7 +14,6 @@ class EditorHeader extends Component {
   render(props) {
     return (
       <div className="editor-header">
-        {console.log("props")}
         <div className="logo-container">
           <Logo />
         </div>
