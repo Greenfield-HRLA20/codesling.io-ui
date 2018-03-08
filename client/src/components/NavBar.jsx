@@ -23,8 +23,7 @@ export default class NavBar extends Component {
       delete localStorage.email;
       delete localStorage.id;
       delete localStorage.token;
-      this.props.history.push('/login');
-      // TODO: Log user out of current session
+      this.props.history.push('/');
     } catch (err) {
       return console.log(err);
     }
