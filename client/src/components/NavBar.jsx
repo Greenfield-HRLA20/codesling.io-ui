@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class NavBar extends Component {
   constructor(props) {
@@ -9,21 +10,29 @@ export default class NavBar extends Component {
   }
 
   handleHomeClick = () => {
-    this.props.history.push("/home");
+    this.props.history.push('/home');
   };
 
   handleHistoryClick = () => {
-    this.props.history.push("/history");
+    this.props.history.push('/history');
   };
 
-  handleLogoutClick = () => {
-    this.props.history.push("/login");
-    // TODO: Log user out of current session
+  handleLogoutClick = async () => {
+    try {
+      await axios.get('http://localhost:3396/api/auth/logout');
+      delete localStorage.email;
+      delete localStorage.id;
+      delete localStorage.token;
+      this.props.history.push('/login');
+      // TODO: Log user out of current session
+    } catch (err) {
+      return console.log(err);
+    }
   };
 
   render() {
     return (
-      <nav className="editor-navbar" style={{ margin: "15px" }}>
+      <nav className="editor-navbar" style={{ margin: '15px' }}>
         <ul>
           <li onClick={this.handleHomeClick}>Home</li>
           <li onClick={this.handleHistoryClick}>Challenge History</li>

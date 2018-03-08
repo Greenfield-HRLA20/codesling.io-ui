@@ -24,10 +24,17 @@ class SlingIndex extends Component {
         <Sling
           socket={this.state.socket}
           challenge={this.props.location.state.challenge}
+          history={this.props.history}
         />
       );
     } else {
-      return <Sling socket={this.state.socket} challenge={{}} />;
+      return (
+        <Sling
+          socket={this.state.socket}
+          challenge={{}}
+          history={this.props.history}
+        />
+      );
     }
   }
 }

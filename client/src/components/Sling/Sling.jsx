@@ -14,8 +14,8 @@ import 'codemirror/theme/base16-dark.css';
 import './Sling.css';
 
 class Sling extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       id: null,
       ownerText: null,
@@ -54,6 +54,11 @@ class Sling extends Component {
     socket.on('server.run', ({ stdout, email }) => {
       const ownerEmail = localStorage.getItem('email');
       email === ownerEmail ? this.setState({ stdout }) : null;
+    });
+
+    socket.on('disconnect', () => {
+      alert('You won or lost');
+      this.props.history.push('/history');
     });
 
     window.addEventListener('resize', this.setEditorSize);

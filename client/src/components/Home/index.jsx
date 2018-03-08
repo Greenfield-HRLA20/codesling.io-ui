@@ -1,20 +1,12 @@
-<<<<<<< HEAD
-import React, { Component } from "react";
-import randomstring from "randomstring";
-import axios from "axios";
-
-import Button from "../globals/Button";
-import Logo from "../globals/Logo";
-import NavBar from "../NavBar.jsx";
-=======
 import React, { Component } from 'react';
 import randomstring from 'randomstring';
 import axios from 'axios';
+
 import Button from '../globals/Button';
 import Logo from '../globals/Logo';
->>>>>>> Commit for rebase
+import NavBar from '../NavBar.jsx';
 
-import "./LandingPage.css";
+import './LandingPage.css';
 
 let slingId;
 
@@ -25,11 +17,7 @@ class Home extends Component {
   };
 
   async componentDidMount() {
-<<<<<<< HEAD
-    const id = localStorage.getItem("id");
-=======
     const id = localStorage.getItem('id');
->>>>>>> Commit for rebase
     const { data } = await axios.get(
       `http://localhost:3396/api/usersChallenges/${id}`
     );
@@ -51,11 +39,7 @@ class Home extends Component {
   };
 
   handleAddChallengeClick = () => {
-<<<<<<< HEAD
-    this.props.history.push("/addChallenge");
-=======
     this.props.history.push('/addChallenge');
->>>>>>> Commit for rebase
   };
 
   handleChallengeSelect = e => {
@@ -67,10 +51,7 @@ class Home extends Component {
   render() {
     return (
       <div className="landing-page-container">
-<<<<<<< HEAD
         <NavBar history={this.props.history} />
-=======
->>>>>>> Commit for rebase
         <Logo className="landing-page-logo" />
         <br />
         <select onChange={e => this.handleChallengeSelect(e)}>
