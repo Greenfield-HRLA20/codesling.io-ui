@@ -85,10 +85,10 @@ class Sling extends Component {
 
     //
 
-    socket.on('server.message', ({ message, email }) => {
-      const ownerEmail = localStorage.getItem('email');
+    socket.on('server.message', payload => {
+      // const ownerEmail = localStorage.getItem('email');
       let temp = Array.from(this.state.msg);
-      temp.push(message);
+      temp.push(payload);
       this.setState({ msg: temp });
     });
     //
@@ -102,9 +102,6 @@ class Sling extends Component {
     const email = localStorage.getItem('email');
     console.log(challenge);
     socket.emit('client.run', { text: ownerText, email, test: challenge.test });
-    const { ownerText } = this.state;
-    const email = localStorage.getItem('email');
-    socket.emit('client.run', { text: ownerText, email });
   };
 
   //
@@ -112,7 +109,10 @@ class Sling extends Component {
     const { socket } = this.props;
     const { textField } = this.state;
     const email = localStorage.getItem('email');
-    socket.emit('client.message', { value: textField, email });
+    if (textField.length) {
+      socket.emit('client.message', { value: textField, email });
+    }
+    this.setState({ textField: '' });
   };
   //
 
@@ -138,7 +138,7 @@ class Sling extends Component {
     const { socket } = this.props;
     return (
       <div className="sling-container">
-        <EditorHeader />
+        <EditorHeader history={this.props.history} />
         <div className="code1-editor-container">
           <CodeMirror
             editorDidMount={this.initializeEditor}
@@ -164,16 +164,24 @@ class Sling extends Component {
             color="white"
             onClick={() => this.submitCode()}
           />
+          <div className="chatbox">
+            <input
+              name="textField"
+              value={this.state.textField}
+              onChange={this.changeHandler}
+              className="messages"
+              placeholder="Chat here"
+            />
+            <button
+              className="submitMessage"
+              onClick={() => this.submitMessage()}
+            >
+              Send message
+            </button>
+
+            <ChatBox msg={this.state.msg} />
+          </div>
         </div>
-        <div>
-          <input
-            name="textField"
-            onChange={this.changeHandler}
-            className="messages"
-          />
-          <button onClick={() => this.submitMessage()}>Submit</button>
-        </div>
-        <ChatBox msg={this.state.msg} />
         <div className="code2-editor-container">
           <CodeMirror
             editorDidMount={this.initializeEditor}
