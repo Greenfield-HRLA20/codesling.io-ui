@@ -32,7 +32,11 @@ export default class NavBar extends Component {
       delete localStorage.email;
       delete localStorage.id;
       delete localStorage.token;
+<<<<<<< HEAD
       this.props.history.push("/");
+=======
+      this.props.history.push('/login');
+>>>>>>> Commit for rebase
     } catch (err) {
       return console.log(err);
     }

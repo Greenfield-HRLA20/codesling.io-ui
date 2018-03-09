@@ -6,8 +6,15 @@ import { throttle } from 'lodash';
 
 import Stdout from './StdOut/index.jsx';
 import EditorHeader from './EditorHeader';
+<<<<<<< HEAD
 import Button from '../globals/Button';
 
+=======
+import NavBar from '../NavBar.jsx';
+
+import Button from '../globals/Button';
+
+>>>>>>> Commit for rebase
 import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/base16-dark.css';
@@ -20,6 +27,14 @@ class Sling extends Component {
       id: null,
       ownerText: null,
       challengerText: null,
+<<<<<<< HEAD
+=======
+      //
+      ownerMessage: null,
+      challengerMessage: null,
+      messageBox: '',
+      //
+>>>>>>> Commit for rebase
       text: '',
       challenge: '',
       stdout: ''
@@ -53,9 +68,12 @@ class Sling extends Component {
 
     socket.on('server.run', ({ stdout, email }) => {
       const ownerEmail = localStorage.getItem('email');
+<<<<<<< HEAD
       stdout = stdout.trim().split('\n');
       let result = stdout.pop();
       stdout = stdout.join('\n');
+=======
+>>>>>>> Commit for rebase
       email === ownerEmail ? this.setState({ stdout }) : null;
       if (result === 'true') {
         if (email === ownerEmail) {
@@ -71,20 +89,52 @@ class Sling extends Component {
       }
     });
 
+<<<<<<< HEAD
     socket.on('disconnect', () => {
+      this.props.history.push('/history');
+=======
+    //
+    socket.on('server.message', email => {
+      const ownerEmail = local.storage.getItem('email');
+      email === ownerEmail ? this.setState({ messageBox }) : null;
+>>>>>>> Commit for rebase
+    });
+    //
+
+<<<<<<< HEAD
+=======
+    socket.on('disconnect', () => {
+      alert('You won or lost');
       this.props.history.push('/history');
     });
 
+>>>>>>> Commit for rebase
     window.addEventListener('resize', this.setEditorSize);
   }
 
   submitCode = () => {
     const { socket } = this.props;
+<<<<<<< HEAD
     const { ownerText, challenge } = this.state;
     const email = localStorage.getItem('email');
     console.log(challenge);
     socket.emit('client.run', { text: ownerText, email, test: challenge.test });
+=======
+    const { ownerText } = this.state;
+    const email = localStorage.getItem('email');
+    socket.emit('client.run', { text: ownerText, email });
   };
+
+  //
+  submitMessage = () => {
+    console.log('this is running');
+    const { socket } = this.props;
+    const { ownerMessage, challengerMessage } = this.state;
+    const email = localStorage.getItem('email');
+    socket.emit('client.message', { text: messageBox, email });
+>>>>>>> Commit for rebase
+  };
+  //
 
   handleChange = throttle((editor, metadata, value) => {
     const email = localStorage.getItem('email');
@@ -130,6 +180,10 @@ class Sling extends Component {
             color="white"
             onClick={() => this.submitCode()}
           />
+        </div>
+        <div>
+          <input className="messages" />
+          <button onClick={() => this.submitMessage()}>Submit</button>
         </div>
         <div className="code2-editor-container">
           <CodeMirror
