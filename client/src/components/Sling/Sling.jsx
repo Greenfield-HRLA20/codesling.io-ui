@@ -53,11 +53,25 @@ class Sling extends Component {
 
     socket.on('server.run', ({ stdout, email }) => {
       const ownerEmail = localStorage.getItem('email');
+      stdout = stdout.trim().split('\n');
+      let result = stdout.pop();
+      stdout = stdout.join('\n');
       email === ownerEmail ? this.setState({ stdout }) : null;
+      if (result === 'true') {
+        if (email === ownerEmail) {
+          alert(`Winner Winner Chicken Dinner`);
+        } else {
+          socket.emit('client.recordHistory', {
+            challenge_id: this.state.challenge.id,
+            winner: email,
+            loser: ownerEmail
+          });
+          alert(`You lost! Better Luck Next Time`);
+        }
+      }
     });
 
     socket.on('disconnect', () => {
-      alert('You won or lost');
       this.props.history.push('/history');
     });
 
@@ -66,9 +80,10 @@ class Sling extends Component {
 
   submitCode = () => {
     const { socket } = this.props;
-    const { ownerText } = this.state;
+    const { ownerText, challenge } = this.state;
     const email = localStorage.getItem('email');
-    socket.emit('client.run', { text: ownerText, email });
+    console.log(challenge);
+    socket.emit('client.run', { text: ownerText, email, test: challenge.test });
   };
 
   handleChange = throttle((editor, metadata, value) => {
@@ -106,6 +121,7 @@ class Sling extends Component {
           {this.state.challenge.title || this.props.challenge.title}
           <br />
           {this.state.challenge.content || this.props.challenge.content}
+          <br />
           <Stdout text={this.state.stdout} />
           <Button
             className="run-btn"
