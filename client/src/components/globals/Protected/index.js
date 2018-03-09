@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import jwtDecode from 'jwt-decode';
 
 class Protected extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     try {
-      const { exp } = jwtDecode(localStorage.token);
+      const { exp } = await jwtDecode(localStorage.token);
       if (exp < Math.floor(Date.now() / 1000)) {
         this.props.history.push('/login');
       }
@@ -16,9 +16,7 @@ class Protected extends Component {
 
   render() {
     const { component: Component } = this.props;
-    return (
-      <Component {...this.props} />
-    );
+    return <Component {...this.props} />;
   }
 }
 
