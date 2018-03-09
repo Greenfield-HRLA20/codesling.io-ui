@@ -29,12 +29,12 @@ class User extends Component {
         {this.props.user.username} (email: {this.props.user.email}) (Clout:{" "}
         {this.props.user.clout})
         {!this.props.currentFriendsIds.includes(this.props.user.id) &&
-          this.props.user.id !== id && (
+          this.props.user.id !== id &&
+          !this.state.requested && (
             <input
               type="button"
               value="Add as friend"
               onClick={() => this.handleAddClick(this.props.user.id)}
-              disabled={this.state.requested}
             />
           )}
       </li>
