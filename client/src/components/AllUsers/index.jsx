@@ -24,9 +24,6 @@ class AllUsers extends Component {
       currentFriendsIds.push(friend.id);
     });
     this.setState({ currentFriendsIds: currentFriendsIds });
-
-    console.log(this.state.allUsers);
-    console.log(this.state.currentFriendsIds);
   }
   render() {
     return (

@@ -12,14 +12,10 @@ class Friend extends Component {
   }
 
   async handleDeleteClick(clickedFriendId) {
-    // console.log(clickedFriendId, id);
-    console.log("clicked delete button");
     const { data } = await axios.delete(
       `http://localhost:3396/api/friends/deleteFriend/${id}/${clickedFriendId}`
     );
-    // console.log("received data: ", data);
     this.setState({ removed: true });
-    // this.setState({ requested: true });
   }
 
   render() {
