@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
-const id = Number(localStorage.getItem("id"));
+const id = Number(localStorage.getItem('id'));
 
 class Friend extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class Friend extends Component {
 
   async handleDeleteClick(clickedFriendId) {
     const { data } = await axios.delete(
-      `http://localhost:3396/api/friends/deleteFriend/${id}/${clickedFriendId}`
+      `http://54.183.228.239:3396/api/friends/deleteFriend/${id}/${clickedFriendId}`
     );
     this.setState({ removed: true });
   }

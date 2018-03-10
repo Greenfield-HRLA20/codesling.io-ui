@@ -19,7 +19,7 @@ class Home extends Component {
   async componentDidMount() {
     const id = localStorage.getItem('id');
     const { data } = await axios.get(
-      `http://localhost:3396/api/usersChallenges/${id}`
+      `http://54.183.228.239:3396/api/usersChallenges/${id}`
     );
     this.setState({ allChallenges: data.rows });
   }

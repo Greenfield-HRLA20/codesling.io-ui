@@ -14,60 +14,65 @@ export default class Signup extends Component {
       email: '',
       password: '',
       username: ''
-    }
+    };
   }
 
-  submitAuthData = async (e) => {
+  submitAuthData = async e => {
     e.preventDefault();
     const { email, password, username } = this.state;
     const body = {
       email,
       password,
       username
-    }
+    };
     try {
-      const data = await axios.post(`http://localhost:3396/api/auth/signup`, body);
-      data ? this.props.history.push('/login') : this.props.history.push('/auth');
+      const data = await axios.post(
+        `http://54.183.228.239:3396/api/auth/signup`,
+        body
+      );
+      data
+        ? this.props.history.push('/login')
+        : this.props.history.push('/auth');
     } catch (err) {
       throw new Error(err);
     }
-  }
+  };
 
-  handleInputChange = (event) => {
+  handleInputChange = event => {
     const { value, name } = event.target;
     this.setState({ [name]: value });
-  }
+  };
 
   render() {
     return (
       <div className="login-form-container">
         <form className="auth-form">
           <Input
-            name='email'
-            type='email'
+            name="email"
+            type="email"
             placeholder={'enter email'}
             onChange={this.handleInputChange}
-            />
-          <Input 
-            name='username'
-            type='username'
+          />
+          <Input
+            name="username"
+            type="username"
             placeholder={'enter your username'}
             onChange={this.handleInputChange}
-            />
-          <Input 
-            name='password'
-            type='password'
+          />
+          <Input
+            name="password"
+            type="password"
             placeholder={'enter your password'}
             onChange={this.handleInputChange}
-            />
+          />
           <Button
             backgroundColor="red"
             color="white"
             text="Sign Up"
-            onClick={(e) => this.submitAuthData(e)}
-            />
+            onClick={e => this.submitAuthData(e)}
+          />
         </form>
       </div>
-    )
+    );
   }
 }

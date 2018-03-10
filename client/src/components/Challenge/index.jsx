@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import axios from 'axios';
 
-import AddChallenge from "./AddChallenge/index.jsx";
-import NavBar from "../NavBar.jsx";
+import AddChallenge from './AddChallenge/index.jsx';
+import NavBar from '../NavBar.jsx';
 
 class Challenge extends Component {
   state = {
@@ -15,9 +15,9 @@ class Challenge extends Component {
   }
 
   fetchAllChallenges = async () => {
-    const id = localStorage.getItem("id");
+    const id = localStorage.getItem('id');
     const { data } = await axios.get(
-      `http://localhost:3396/api/usersChallenges/${id}`
+      `http://54.183.228.239:3396/api/usersChallenges/${id}`
     );
     this.setState({ challenges: data.rows });
   };

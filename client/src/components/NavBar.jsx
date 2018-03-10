@@ -28,7 +28,7 @@ export default class NavBar extends Component {
 
   handleLogoutClick = async () => {
     try {
-      await axios.get('http://localhost:3396/api/auth/logout');
+      await axios.get('http://54.183.228.239:3396/api/auth/logout');
       delete localStorage.email;
       delete localStorage.id;
       delete localStorage.token;
