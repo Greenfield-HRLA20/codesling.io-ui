@@ -5,7 +5,10 @@ import axios from 'axios';
 import { throttle } from 'lodash';
 
 import Stdout from './StdOut/index.jsx';
+import ChatBox from '../ChatBox/ChatBox.jsx';
 import EditorHeader from './EditorHeader';
+import NavBar from '../NavBar.jsx';
+
 import Button from '../globals/Button';
 
 import 'codemirror/mode/javascript/javascript.js';
@@ -20,10 +23,15 @@ class Sling extends Component {
       id: null,
       ownerText: null,
       challengerText: null,
+      //
+      textField: '',
+      msg: [],
+      //
       text: '',
       challenge: '',
       stdout: ''
     };
+    this.changeHandler = this.changeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -75,6 +83,16 @@ class Sling extends Component {
       this.props.history.push('/history');
     });
 
+    //
+
+    socket.on('server.message', payload => {
+      // const ownerEmail = localStorage.getItem('email');
+      let temp = Array.from(this.state.msg);
+      temp.push(payload);
+      this.setState({ msg: temp });
+    });
+    //
+
     window.addEventListener('resize', this.setEditorSize);
   }
 
@@ -86,10 +104,26 @@ class Sling extends Component {
     socket.emit('client.run', { text: ownerText, email, test: challenge.test });
   };
 
+  //
+  submitMessage = () => {
+    const { socket } = this.props;
+    const { textField } = this.state;
+    const email = localStorage.getItem('email');
+    if (textField.length) {
+      socket.emit('client.message', { value: textField, email });
+    }
+    this.setState({ textField: '' });
+  };
+  //
+
   handleChange = throttle((editor, metadata, value) => {
     const email = localStorage.getItem('email');
     this.props.socket.emit('client.update', { text: value, email }); //value is whatever the user types into the code editor
   }, 250);
+
+  changeHandler(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
   setEditorSize = throttle(() => {
     this.editor.setSize(null, `${window.innerHeight - 80}px`);
@@ -104,7 +138,7 @@ class Sling extends Component {
     const { socket } = this.props;
     return (
       <div className="sling-container">
-        <EditorHeader />
+        <EditorHeader history={this.props.history} />
         <div className="code1-editor-container">
           <CodeMirror
             editorDidMount={this.initializeEditor}
@@ -130,6 +164,23 @@ class Sling extends Component {
             color="white"
             onClick={() => this.submitCode()}
           />
+          <div className="chatbox">
+            <input
+              name="textField"
+              value={this.state.textField}
+              onChange={this.changeHandler}
+              className="messages"
+              placeholder="Chat here"
+            />
+            <button
+              className="submitMessage"
+              onClick={() => this.submitMessage()}
+            >
+              Send message
+            </button>
+
+            <ChatBox msg={this.state.msg} />
+          </div>
         </div>
         <div className="code2-editor-container">
           <CodeMirror
