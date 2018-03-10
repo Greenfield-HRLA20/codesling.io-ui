@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
-import Input from "../../globals/forms/Input";
-import Button from "../../globals/Button/";
-import Logo from "../../globals/Logo";
-import NavBar from "../../NavBar.jsx";
+import Input from '../../globals/forms/Input';
+import Button from '../../globals/Button/';
+import Logo from '../../globals/Logo';
+import NavBar from '../../NavBar.jsx';
 
-import "./Auth.css";
+import './Auth.css';
 
 class AddChallenge extends Component {
   state = {
-    title: "",
-    content: "",
+    title: '',
+    content: '',
     difficulty: null,
-    testCase: ""
+    testCase: ''
   };
 
   submitChallenge = async e => {
     e.preventDefault();
     const { title, content, difficulty, testCase } = this.state;
-    const id = localStorage.getItem("id");
+    const id = localStorage.getItem('id');
     const body = {
       title,
       content,
@@ -29,14 +29,17 @@ class AddChallenge extends Component {
     };
 
     const result = await axios.post(
-      "http://localhost:3396/api/challenges",
+      'http://54.183.228.239:3396/api/challenges',
       body
     );
-    const testResult = await axios.post("http://localhost:3396/api/testCases", {
-      content: testCase,
-      challenge_id: result.data.id
-    });
-    this.props.history.push("/home");
+    const testResult = await axios.post(
+      'http://54.183.228.239:3396/api/testCases',
+      {
+        content: testCase,
+        challenge_id: result.data.id
+      }
+    );
+    this.props.history.push('/home');
   };
 
   handleChallengeInput = event => {
@@ -53,25 +56,25 @@ class AddChallenge extends Component {
           <Input
             name="title"
             type="title"
-            placeholder={"enter title"}
+            placeholder={'enter title'}
             onChange={this.handleChallengeInput}
           />
           <Input
             name="content"
             type="content"
-            placeholder={"enter content"}
+            placeholder={'enter content'}
             onChange={this.handleChallengeInput}
           />
           <Input
             name="difficulty"
             type="difficulty"
-            placeholder={"enter your difficulty"}
+            placeholder={'enter your difficulty'}
             onChange={this.handleChallengeInput}
           />
           <Input
             name="testCase"
             type="testCase"
-            placeholder={"enter your testCases"}
+            placeholder={'enter your testCases'}
             onChange={this.handleChallengeInput}
           />
           <Button

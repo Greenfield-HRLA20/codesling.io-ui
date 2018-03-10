@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import axios from "axios";
-import NavBar from "../NavBar.jsx";
-import User from "./User.jsx";
+import React, { Component } from 'react';
+import axios from 'axios';
+import NavBar from '../NavBar.jsx';
+import User from './User.jsx';
 
 class AllUsers extends Component {
   state = {
@@ -10,14 +10,14 @@ class AllUsers extends Component {
   };
 
   async componentDidMount() {
-    const id = localStorage.getItem("id");
+    const id = localStorage.getItem('id');
     let allUsers = await axios.get(
-      `http://localhost:3396/api/users/fetchAllUsers/`
+      `http://54.183.228.239:3396/api/users/fetchAllUsers/`
     );
     this.setState({ allUsers: allUsers.data.rows });
 
     let allFriends = await axios.get(
-      `http://localhost:3396/api/friends/fetchAllFriends/${id}`
+      `http://54.183.228.239:3396/api/friends/fetchAllFriends/${id}`
     );
     let currentFriendsIds = [];
     allFriends.data.forEach(friend => {

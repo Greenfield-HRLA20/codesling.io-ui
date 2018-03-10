@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import axios from "axios";
-import NavBar from "../NavBar.jsx";
-import Friend from "./Friend.jsx";
+import React, { Component } from 'react';
+import axios from 'axios';
+import NavBar from '../NavBar.jsx';
+import Friend from './Friend.jsx';
 
 export default class Friends extends Component {
   constructor(props) {
@@ -12,9 +12,9 @@ export default class Friends extends Component {
   }
 
   async componentDidMount() {
-    const id = localStorage.getItem("id");
+    const id = localStorage.getItem('id');
     const { data } = await axios.get(
-      `http://localhost:3396/api/friends/fetchAllFriends/${id}`
+      `http://54.183.228.239:3396/api/friends/fetchAllFriends/${id}`
     );
     this.setState({ friendsList: data });
   }

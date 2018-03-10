@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
-const id = Number(localStorage.getItem("id"));
+const id = Number(localStorage.getItem('id'));
 
 class User extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class User extends Component {
 
   async handleAddClick(clickedUserId) {
     const { data } = await axios.post(
-      `http://localhost:3396/api/friends/addFriend`,
+      `http://54.183.228.239:3396/api/friends/addFriend`,
       {
         user_id: id,
         friend_id: clickedUserId
@@ -26,7 +26,7 @@ class User extends Component {
   render() {
     return (
       <li>
-        {this.props.user.username} (email: {this.props.user.email}) (Clout:{" "}
+        {this.props.user.username} (email: {this.props.user.email}) (Clout:{' '}
         {this.props.user.clout})
         {!this.props.currentFriendsIds.includes(this.props.user.id) &&
           this.props.user.id !== id &&
